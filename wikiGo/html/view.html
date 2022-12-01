@@ -1,0 +1,44 @@
+<!-- Create a wiki view page -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Wiki View</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Wiki View</h1>
+            <p>
+                <a href="index.php" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to List
+                </a>
+            </p>
+            <?php
+            if (isset($_GET['id'])) {
+                $id = $_GET['id'];
+                $sql = "SELECT * FROM wiki WHERE id = $id";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $title = $row['title'];
+                    $content = $row['content'];
+                    $created_at = $row['created_at'];
+                    $updated_at = $row['updated_at'];
+                    echo "<h2>$title</h2>";
+                    echo "<p>$content</p>";
+                    echo "<p>Created at: $created_at</p>";
+                    echo "<p>Updated at: $updated_at</p>";
+                }
+            }
+            ?>
+        </div>
+    </div>
+</div>
+</body>
+</html>

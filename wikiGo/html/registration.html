@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Wiki Registration</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Wiki Registration</h1>
+    </div>
+    <div class="wrapper">
+        <div class="content">
+            <h2>Please enter your information below</h2>
+            <form action="../controller/controller.php" method="post">
+                <input type="hidden" name="action" value="register">
+                <label>First Name:</label>
+                <input type="text" name="firstName" placeholder="First Name" required>
+                <br>
+                <label>Last Name:</label>
+                <input type="text" name="lastName" placeholder="Last Name" required>
+                <br>
+                <label>Email:</label>
+                <input type="email" name="email" placeholder="Email" required>
+                <br>
+                <label>Password:</label>
+                <input type="password" name="password" placeholder="Password" required>
+                <br>
+                <label>&nbsp;</label>
+                <input type="submit" value="Register">
+                <br>
+            </form>
+            <p>Already have an account? <a href="../view/login.php">Login</a></p>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; <?php echo date("Y"); ?> Wiki, Inc.</p>
+    </div>
+</div>
+</body>
+</html>

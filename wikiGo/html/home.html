@@ -1,0 +1,92 @@
+<!-- Creates a wiki homepage with the title 'Posadist Wiki' -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Posadist Wiki</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bulma-extensions@4.0.0/dist/js/bulma-extensions.min.js"></script>
+<style>
+.is-active {
+  background-color: #f5f5f5;
+}
+</style>
+</head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">
+      Posadist Wiki
+    </h1>
+    <p class="subtitle">
+      A wiki for the Posadist International
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-one-fifth">
+        <aside class="menu">
+          <p class="menu-label">
+            General
+          </p>
+          <ul class="menu-list">
+            <li><a href="#" v-on:click="loadPage('home')">Home</a></li>
+            <li><a href="#" v-on:click="loadPage('about')">About</a></li>
+            <li><a href="#" v-on:click="loadPage('contact')">Contact</a></li>
+          </ul>
+          <p class="menu-label">
+            Administration
+          </p>
+          <ul class="menu-list">
+            <li><a href="#" v-on:click="loadPage('login')">Login</a></li>
+            <li><a href="#" v-on:click="loadPage('register')">Register</a></li>
+          </ul>
+        </aside>
+      </div>
+      <div class="column">
+        <div class="content">
+          <div v-html="page.content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    page: {
+      title: '',
+      content: ''
+    }
+  },
+  methods: {
+    loadPage: function(page) {
+      axios.get('/api/page/' + page)
+        .then(response => {
+          this.page = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  mounted: function() {
+    this.loadPage('home');
+  }
+});
+</script>
+
+</body>
+</html>

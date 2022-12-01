@@ -33,6 +33,17 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
+func homeHandler(w http.ResponseWriter, r *http.Request, title string) {
+	p, err := loadPage(title)
+
+	if err != nil {
+		http.Redirect(w, r, "/home/"+title, http.StatusFound)
+		return
+	}
+
+	renderTemplate(w, "home", p)
+}
+
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title)
 
@@ -66,6 +77,17 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	http.Redirect(w, r, "/view/"+title, http.StatusFound)
 }
 
+func registrationHandler(w http.ResponseWriter, r *http.Request, title string) {
+	p, err := loadPage(title)
+
+	if err != nil {
+		http.Redirect(w, r, "/registration/"+title, http.StatusFound)
+
+		return
+	}
+	renderTemplate(w, "registration", p)
+}
+
 var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
@@ -75,7 +97,7 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 	}
 }
 
-var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
+var validPath = regexp.MustCompile("^/(home|edit|save|view)/([a-zA-Z0-9]+)$")
 
 func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -89,6 +111,8 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 }
 
 func main() {
+	http.HandleFunc("/home/", makeHandler(homeHandler))
+	http.HandleFunc("/registration/", makeHandler(registrationHandler))
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
